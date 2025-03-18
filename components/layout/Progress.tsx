@@ -7,9 +7,9 @@ type ProgressProps = {
 };
 // Assets
 const stepGroups = {
-  "sign-in": 2,
-  "sign-up": 4,
   "forgot-password": 2,
+  "sign-in": 2,
+  "sign-up": 3,
 };
 
 export const Progress = ({ stepGroup }: ProgressProps) => {

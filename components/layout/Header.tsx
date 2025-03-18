@@ -20,8 +20,8 @@ export const Header = ({ session }: HeaderProps) => {
 
   const { verified } = passwordGuardState.use((s) => s);
   const isAuthPage = pathname === "/auth/status" || pathname === "/auth/sign-in";
-  const isLandingPage = pathname === "/auth";
-  const isHomePage = pathname === "/";
+  const isHomePage = pathname === "/home";
+  const isLandingPage = pathname === "/";
 
   function handleDisableAdmin() {
     if (verified) {
@@ -30,18 +30,21 @@ export const Header = ({ session }: HeaderProps) => {
     }
   }
 
-  return isLandingPage ? null : (
-    <header data-selected-settings={pathname.startsWith("/user-details/settings") && verified}>
+  return (
+    <header
+      data-selected-settings={pathname.startsWith("/user-details/settings") && verified}
+      className={isLandingPage ? "!bg-bg !justify-center" : ""}
+    >
       <Progress stepGroup={lastPathSegment as "sign-in"} />
       <div className="flex justify-between items-center">
         {isHomePage ? (
-          <Link prefetch={false} href="/" className="flex items-center">
+          <Link prefetch={false} href="/home" className="flex items-center">
             <Icon icon="logo-dads" />
             <Icon icon="logo-mums" />
           </Link>
         ) : (
           <>
-            <Navigate type={isAuthPage ? "home" : "back"} />
+            {!isLandingPage && <Navigate type={isAuthPage ? "home" : "back"} />}
             <BreadCrumb pathname={pathname} />
           </>
         )}
@@ -61,7 +64,7 @@ export const Header = ({ session }: HeaderProps) => {
             <p className="font-medium text-sm ml-2">{session?.user.userName}</p>
           </Link>
         ) : (
-          <div className="flex items-center justify-end">
+          <div className="flex items-center">
             <Icon icon="logo-dads" />
             <Icon icon="logo-mums" />
           </div>

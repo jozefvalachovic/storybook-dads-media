@@ -9,7 +9,7 @@ type Navigate = {
 export const Navigate = ({ type }: Navigate) => {
   const router = useRouter();
   const navigate = {
-    home: () => router.push("/"),
+    home: () => router.push("/home"),
     back: () => router.back(),
     forward: () => router.forward(),
   };

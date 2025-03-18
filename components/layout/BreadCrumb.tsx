@@ -13,6 +13,10 @@ function formatPathName(pathname: string) {
 
 export const BreadCrumb = ({ pathname }: BreadCrumbProps) => {
   const pathnameFormatted = formatPathName(pathname);
+  if (pathnameFormatted.length === 0) {
+    return null;
+  }
+
   const firstSegmentRef = pathnameFormatted[0].replaceAll(" ", "-");
 
   switch (true) {

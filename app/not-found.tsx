@@ -7,7 +7,7 @@ export default function NotFound() {
         <h1>Not Found</h1>
         <p className="py-2 mb-2">
           Looks like you're lost. Let's get you{" "}
-          <Link href="/" className="font-semibold !text-tertiary">
+          <Link href="/home" className="font-semibold !text-tertiary">
             back Home
           </Link>
           .

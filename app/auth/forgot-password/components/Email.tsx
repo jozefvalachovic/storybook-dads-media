@@ -14,7 +14,7 @@ export const Email = ({ reset }: EmailProps) => {
   const disabled = !emailPattern.test(email);
 
   return reset ? (
-    <div className="relative select-none flex bg-light-grey px-4 py-[10px] rounded-lg">
+    <div className="relative select-none flex bg-light-grey px-4 py-[10px] rounded-xl">
       <p className="absolute -top-[9px] left-[17px] text-[13px] !text-tertiary">
         Sent successfully
       </p>

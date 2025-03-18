@@ -20,6 +20,8 @@ export async function handleSignUp(formData: FormData) {
   if (step === 1) {
     const object = {} as SignUpObject;
     // Credentials
+    object.name = String(formObject.name);
+    object.surname = String(formObject.surname);
     object.email = String(formObject.email);
     object.password = String(formObject.password);
 
@@ -30,7 +32,7 @@ export async function handleSignUp(formData: FormData) {
       return await signIn("credentials", {
         email: object.email,
         password: object.password,
-        redirectTo: "/",
+        redirectTo: "/home",
       });
     } else {
       const objectEncoded = await encodeString(JSON.stringify(object));
@@ -39,16 +41,6 @@ export async function handleSignUp(formData: FormData) {
   }
 
   if (step === 2) {
-    const object = await decodeObjectString(cookieStore.get("object")?.value ?? "{}");
-    // Parent Information
-    object.name = String(formObject.name);
-    object.surname = String(formObject.surname);
-
-    const objectEncoded = await encodeString(JSON.stringify(object));
-    cookieStore.set("object", objectEncoded);
-  }
-
-  if (step === 3) {
     const object = await decodeObjectString(cookieStore.get("object")?.value ?? "{}");
     // Child Profile
     object.profileAvatar = String(formObject["profile-avatar"]);
@@ -59,7 +51,7 @@ export async function handleSignUp(formData: FormData) {
     cookieStore.set("object", objectEncoded);
   }
 
-  if (step === 4) {
+  if (step === 3) {
     const object = await decodeObjectString(cookieStore.get("object")?.value ?? "{}");
     // Delete object cookie
     cookieStore.delete("object");
@@ -70,9 +62,9 @@ export async function handleSignUp(formData: FormData) {
     object.prisonerNumber = String(formObject["prisoner-number"]);
     object.prisonerPrison = String(formObject["prisoner-prison"]);
 
-    const created = await userSignUp(object);
+    const user = await userSignUp(object);
 
-    redirect(created ? "/auth/status?id=a5cd6f93-1d33-488c-8ea1-855997908b0d" : rootStepUrl);
+    redirect(user ? `/auth/status?id=${user.userId}` : rootStepUrl);
   }
 
   redirect(`/auth/sign-up?step=${step + 1}`);

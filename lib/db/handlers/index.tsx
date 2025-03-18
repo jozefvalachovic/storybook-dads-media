@@ -47,7 +47,7 @@ export async function userSignUp(signUpObject: SignUpObject) {
   if (!user) {
     console.error("User not created");
 
-    return false;
+    return null;
   }
 
   // Profile
@@ -63,13 +63,13 @@ export async function userSignUp(signUpObject: SignUpObject) {
   if (!profile) {
     console.error("Profile not created");
 
-    return false;
+    return null;
   }
   const updatedUser = await userUpdateActiveProfileId(email, profile.profileId);
   if (!updatedUser) {
     console.error("User not updated");
 
-    return false;
+    return null;
   }
 
   // Prisoner
@@ -81,7 +81,7 @@ export async function userSignUp(signUpObject: SignUpObject) {
     if (!prison) {
       console.error("Prison not found");
 
-      return false;
+      return null;
     }
 
     // If prisoner does not exist, create it
@@ -93,11 +93,15 @@ export async function userSignUp(signUpObject: SignUpObject) {
     if (!prisoner) {
       console.error("Prisoner not created");
 
-      return false;
+      return null;
     } else {
       console.log("Prisoner created");
 
-      return true;
+      return user;
     }
+  } else {
+    console.log("Prisoner already exists");
+
+    return user;
   }
 }

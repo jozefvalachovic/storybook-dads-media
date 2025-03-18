@@ -417,7 +417,7 @@ textarea {
   font-size: 15px;
   padding: 0.5rem 1rem;
   border: var(--color-mid-grey) 1px solid;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   &:focus,
   &:not(:placeholder-shown) {
     & + label {

@@ -27,7 +27,7 @@ export const Menu = () => {
             key={icon}
             href={ref.startsWith("http") ? ref : `/user-details/${ref}`}
             target={ref.startsWith("http") ? "_blank" : undefined}
-            className="btn flex bg-light-grey p-6 rounded-xl"
+            className="btn flex bg-light-grey p-4 rounded-xl"
           >
             <Icon icon={icon} />
             <p className="ml-3">{name}</p>
@@ -36,7 +36,7 @@ export const Menu = () => {
       })}
       <div
         onClick={handleSignOut}
-        className={`btn-blank cursor-pointer !justify-start !p-6 !rounded-2xl ${
+        className={`btn-blank cursor-pointer !justify-start !p-4 !rounded-xl ${
           confirmLogout ? "!shadow-none !bg-[#6750a41f] !border-black" : "!border-dark-grey"
         }`}
       >

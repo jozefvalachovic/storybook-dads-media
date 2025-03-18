@@ -1,6 +1,6 @@
 import { auth, profilesGet } from "@/lib";
 // Components
-import { SignIn } from "../components";
+import { SignIn } from "./components";
 import { ProfilesSelect } from "@/components/ProfilesSelect";
 // Types
 export type SignInData = Awaited<ReturnType<typeof getData>>;
@@ -19,7 +19,7 @@ async function getData() {
   return {
     profiles,
     activeProfileId: "",
-    redirectOnUpdate: "/",
+    redirectOnUpdate: "/home",
     className: "grid grid-cols-2 gap-5",
   };
 }

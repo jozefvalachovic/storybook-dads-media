@@ -21,7 +21,6 @@ export const Form = ({ profile }: FormProps) => {
   return (
     <form className="!w-[var(--app-width-min)] !flex-row flex-wrap !justify-end gap-4 mt-4">
       <AvatarSelect selected={avatar} setSelected={setAvatar} />
-      <h2 className="w-full text-dark-grey">Credentials</h2>
       <Input name="name" label="Name" value={name} setValue={setName} />
       <Input
         name="date"

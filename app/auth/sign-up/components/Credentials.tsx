@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { emailPattern, emailPatternString, passwordPattern } from "@/helpers";
 // Componets
@@ -7,17 +8,25 @@ import { Input, PasswordInput } from "@/components/form";
 import { Icon } from "@/components/icons/Icon";
 
 export const Credentials = () => {
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   const disabled =
-    !email.match(emailPattern) || password !== confirmPassword || !passwordPattern.test(password);
+    !name ||
+    !surname ||
+    !email.match(emailPattern) ||
+    password !== confirmPassword ||
+    !passwordPattern.test(password);
 
   return (
     <div>
-      <h2>Account Details</h2>
+      <h2>Your Information</h2>
+      <Input name="name" label="Name" value={name} setValue={setName} required />
+      <Input name="surname" label="Surname" value={surname} setValue={setSurname} required />
       <Input
         name="email"
         label="Email"
@@ -61,6 +70,12 @@ export const Credentials = () => {
       <button className="btn-tertiary" disabled={disabled}>
         Continue
       </button>
+      <div className="flex justify-between">
+        <p className="text-sm">Already signed up?</p>
+        <Link href="/auth/sign-in" className="!text-tertiary text-sm text-right">
+          Sign In
+        </Link>
+      </div>
     </div>
   );
 };

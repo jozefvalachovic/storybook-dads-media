@@ -2,15 +2,14 @@ import { redirect } from "next/navigation";
 import { handleSignUp } from "./actions";
 import { prisonsGet } from "@/lib/db/handlers";
 // Components
-import { Credentials, Name, Prisoner, Profiles } from "./components";
+import { Credentials, Prisoner, Profiles } from "./components";
 // Types
 import type { SearchParams } from "@/types";
 // Assets
 const stepGroups = {
   1: Credentials,
-  2: Name,
-  3: Profiles,
-  4: Prisoner,
+  2: Profiles,
+  3: Prisoner,
 };
 
 async function getData() {
