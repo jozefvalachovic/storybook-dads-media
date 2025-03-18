@@ -22,7 +22,6 @@ export const Content = (prisoner: SettingsPrisonerData) => {
 
   return (
     <div className="w-[var(--app-width-min)] flex flex-col gap-4 flex-1 mt-4">
-      <h2 className="w-full text-dark-grey">Prisoner Information</h2>
       {fields.map(([key, value]) => {
         const label = capitalize(key);
 

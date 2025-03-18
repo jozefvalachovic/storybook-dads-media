@@ -18,13 +18,10 @@ export const Form = ({ profile }: FormProps) => {
   const updated =
     name !== profile.name || dateOfBirth !== profile.dateOfBirth || avatar !== profile.avatar;
 
-  const headingClassname = `w-full ${profile.active ? "text-tertiary" : "text-dark-grey"}`;
-
   return (
     <form className="!w-[var(--app-width-min)] !flex-row flex-wrap !justify-end gap-4 mt-4">
-      <h2 className={headingClassname}>Avatar</h2>
       <AvatarSelect selected={avatar} setSelected={setAvatar} />
-      <h2 className={headingClassname}>Credentials</h2>
+      <h2 className="w-full text-dark-grey">Credentials</h2>
       <Input name="name" label="Name" value={name} setValue={setName} />
       <Input
         name="date"
