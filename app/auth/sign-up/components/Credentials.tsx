@@ -1,0 +1,66 @@
+"use client";
+
+import { useState } from "react";
+import { emailPattern, emailPatternString, passwordPattern } from "@/helpers";
+// Componets
+import { Input, PasswordInput } from "@/components/form";
+import { Icon } from "@/components/icons/Icon";
+
+export const Credentials = () => {
+  const [email, setEmail] = useState("jozef.valachovic@gmail.com");
+  const [password, setPassword] = useState("HbH8uUO&59!dm02IVY");
+  const [confirmPassword, setConfirmPassword] = useState("HbH8uUO&59!dm02IVY");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const disabled =
+    !email.match(emailPattern) || password !== confirmPassword || !passwordPattern.test(password);
+
+  return (
+    <div>
+      <h2>Account Details</h2>
+      <Input
+        name="email"
+        label="Email"
+        value={email}
+        setValue={setEmail}
+        required
+        pattern={emailPatternString}
+        icon={{
+          position: "left",
+          Icon: (
+            <Icon
+              icon="email"
+              iconColor={
+                email.length
+                  ? email.match(emailPattern)
+                    ? "var(--color-tertiary)"
+                    : "var(--color-error)"
+                  : "var(--color-icon)"
+              }
+            />
+          ),
+          widthXl: true,
+        }}
+      />
+      <PasswordInput
+        name="password"
+        label="Password"
+        password={password}
+        setPassword={setPassword}
+        showPassword={showPassword}
+        setShowPassword={setShowPassword}
+      />
+      <PasswordInput
+        name="confirm-password"
+        label="Confirm Password"
+        password={confirmPassword}
+        setPassword={setConfirmPassword}
+        showPassword={showPassword}
+        setShowPassword={setShowPassword}
+      />
+      <button className="btn-tertiary" disabled={disabled}>
+        Continue
+      </button>
+    </div>
+  );
+};
