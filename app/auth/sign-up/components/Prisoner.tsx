@@ -9,10 +9,10 @@ type PrisonerProps = {
 };
 
 export const Prisoner = ({ prisons }: PrisonerProps) => {
-  const [name, setName] = useState("A Test Prisoner");
-  const [surname, setSurname] = useState("Account");
-  const [number, setNumber] = useState("A123456");
-  const [prison, setPrison] = useState("A Test Prison");
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [number, setNumber] = useState("");
+  const [prison, setPrison] = useState("");
   function updatePrison(value: string[]) {
     setPrison(value[0]);
   }

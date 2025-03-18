@@ -7,7 +7,7 @@ export default function Page() {
       <div className="h-full flex flex-col items-center justify-center mb-12">
         <Image src="/boy-reading.png" width={233} height={256} alt="Boy reading" />
         <h1 className="leading-normal !font-normal text-center">
-          Connecting families through magical storytelling.
+          Connecting families through the magic of storytelling
         </h1>
       </div>
       <Link href="/auth/sign-in?step=1" className="btn-tertiary w-full">

@@ -5,8 +5,8 @@ import { useState } from "react";
 import { Input } from "@/components/form";
 
 export const Name = () => {
-  const [name, setName] = useState("Testing");
-  const [surname, setSurname] = useState("Account");
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
 
   const disabled = !name || !surname;
 

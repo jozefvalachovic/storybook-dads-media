@@ -5,9 +5,9 @@ import { useState } from "react";
 import { AvatarSelect, Input } from "@/components/form";
 
 export const Profiles = () => {
-  const [name, setName] = useState("Profile");
-  const [dateOfBirth, setDateOfBirth] = useState("2020-01-01");
-  const [avatar, setAvatar] = useState("Pig");
+  const [name, setName] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState("");
+  const [avatar, setAvatar] = useState("");
 
   const disabled = !name || !dateOfBirth;
 
