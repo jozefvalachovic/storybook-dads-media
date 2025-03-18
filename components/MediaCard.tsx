@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { updateMediaPlayerURL } from "./MediaPlayer";
 // Types
-import type { HomeData } from "@/app/page";
+import type { HomeData } from "@/app/home/page";
 type MediaCardProps = {
   document: HomeData["documents"][0];
   format?: "normal" | "large";

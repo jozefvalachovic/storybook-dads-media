@@ -1,7 +1,7 @@
 import { audioMediaTypes, videoMediaTypes } from "@/helpers";
 import { MediaCard } from "./MediaCard";
 // Types
-import { HomeData } from "@/app/page";
+import type { HomeData } from "@/app/home/page";
 type MediaListProps = {
   documents: HomeData["documents"];
   type: "audio" | "video";

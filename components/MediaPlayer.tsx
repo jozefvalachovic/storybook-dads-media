@@ -6,7 +6,7 @@ import { audioMediaTypes } from "@/helpers";
 import { Icon } from "./icons/Icon";
 import { Spinner } from "./Spinner";
 // Types
-import type { HomeData } from "@/app/page";
+import type { HomeData } from "@/app/home/page";
 export type MediaPlayer = {
   selectedDocument: HomeData["documents"][0] | null;
   loading: boolean;
