@@ -19,7 +19,6 @@ export const Form = ({ user }: FormProps) => {
   return (
     <form className="!w-[var(--app-width-min)] !flex-row flex-wrap !justify-end gap-4 mt-4">
       <h2 className="w-full text-dark-grey">Credentials</h2>
-      <Input name="email" label="Email" value={user.userEmail} disabled />
       <Input name="name" label="Name" value={name} setValue={setName} />
       <Input name="surname" label="Surname" value={surname} setValue={setSurname} />
       <Link href="/user-details/settings/profiles" className="btn-blank w-[90px] !text-tertiary">

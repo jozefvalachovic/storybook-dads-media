@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Page() {
   return (
-    <section className="max-w-[var(--app-width-min)] gap-4 !py-[20dvh] m-auto">
+    <section className="max-w-[var(--app-width-min)] gap-4 m-auto">
       <div className="h-full flex flex-col items-center justify-center mb-12">
         <Image src="/boy-reading.png" width={233} height={256} alt="Boy reading" />
         <h1 className="leading-normal !font-normal text-center">
