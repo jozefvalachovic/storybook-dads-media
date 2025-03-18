@@ -47,5 +47,7 @@ export function useFormHandler(
 function updateFormDataSubmit(event: FormEvent<HTMLFormElement>, dataSubmit: boolean) {
   const form = event.currentTarget;
 
-  form.setAttribute("data-submit", `${dataSubmit}`);
+  if (form) {
+    form.setAttribute("data-submit", `${dataSubmit}`);
+  }
 }

@@ -3,11 +3,11 @@ import { ClientProvider } from "@/components/ClientProvider";
 import "./globals.css";
 // Types
 import type { ReactNode } from "react";
+import type { Viewport } from "next";
 type Props = {
   children: ReactNode;
 };
 
-// Fonts
 import { Lato } from "next/font/google";
 const lato = Lato({
   weight: ["400", "700"],
@@ -16,10 +16,16 @@ const lato = Lato({
   variable: "--font-lato",
 });
 
-// Metadata
 export const metadata = {
   title: "Storybook Dads",
   description: "Storybook Dads",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#15803d",
+  width: "device-width",
+  initialScale: 1.0,
+  maximumScale: 1.0,
 };
 
 export default async function RootLayout({ children }: Props) {
