@@ -6,14 +6,17 @@ type Props = {
   children?: React.ReactNode;
 };
 
-export const ClientProvider = async ({ children }: Props) => {
+export const SessionProvider = async ({ children }: Props) => {
   const session = await auth();
+  if (!session) {
+    return null;
+  }
 
   return (
     <>
       <Header session={session} />
       <main>{children}</main>
-      {session && <Footer />}
+      <Footer />
     </>
   );
 };

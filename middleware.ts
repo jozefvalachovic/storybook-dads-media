@@ -29,7 +29,7 @@ export default auth((req) => {
     return NextResponse.redirect(route);
   }
 
-  if (isAuthenticated && isAuthRoute) {
+  if (isAuthenticated && (isLandingPage || isAuthRoute)) {
     const route = new URL("/home", nextUrl);
 
     const paramsStep = nextUrl.searchParams.get("step");

@@ -2,10 +2,11 @@ import { redirect } from "next/navigation";
 import { handleSignUp } from "./actions";
 import { prisonsGet } from "@/lib/db/handlers";
 // Components
+import { Progress } from "@/components/layout/Progress";
 import { Credentials, Prisoner, Profiles } from "./components";
 // Types
 import type { SearchParams } from "@/types";
-// Assets
+
 const stepGroups = {
   1: Credentials,
   2: Profiles,
@@ -34,11 +35,14 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
   const { prisonsList } = await getData();
 
   return (
-    <section>
-      <form action={handleSignUp}>
-        <input type="hidden" name="current-step" value={currentStep} />
-        <Component prisons={prisonsList} />
-      </form>
-    </section>
+    <>
+      <Progress steps={3} />
+      <section>
+        <form action={handleSignUp}>
+          <input type="hidden" name="current-step" value={currentStep} />
+          <Component prisons={prisonsList} />
+        </form>
+      </section>
+    </>
   );
 }

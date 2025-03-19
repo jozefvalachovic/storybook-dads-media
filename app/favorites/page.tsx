@@ -1,3 +1,9 @@
+import { SessionProvider } from "@/components/SessionProvider";
+
 export default function Page() {
-  return <section className=""></section>;
+  return (
+    <SessionProvider>
+      <section></section>
+    </SessionProvider>
+  );
 }

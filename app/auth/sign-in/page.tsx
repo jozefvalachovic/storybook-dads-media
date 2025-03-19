@@ -1,8 +1,10 @@
+import { redirect } from "next/navigation";
 import { auth, profilesGet } from "@/lib";
 // Components
-import { SignIn } from "./components";
-import { ProfilesSelect } from "@/components/ProfilesSelect";
+import { Profile, SignIn } from "./components";
+import { Progress } from "@/components/layout/Progress";
 // Types
+import type { SearchParams } from "@/types";
 export type SignInData = Awaited<ReturnType<typeof getData>>;
 
 async function getData() {
@@ -24,19 +26,31 @@ async function getData() {
   };
 }
 
-export default async function Page() {
+const stepGroups = {
+  1: SignIn,
+  2: Profile,
+};
+
+export default async function Page({ searchParams }: { searchParams: SearchParams }) {
+  const { step } = await searchParams;
+  if (!step || Array.isArray(step)) {
+    redirect("/auth/sign-in?step=1");
+  }
+
+  const currentStep = parseInt(step);
+  const Component = stepGroups[currentStep as keyof typeof stepGroups];
+  if (!Component) {
+    redirect("/auth/sign-in?step=1");
+  }
+
   const data = await getData();
 
   return (
-    <section>
-      {data.profiles.length > 1 ? (
-        <div className="m-auto">
-          <h2 className="mb-6">Who's Listening?</h2>
-          <ProfilesSelect {...data} />
-        </div>
-      ) : (
-        <SignIn />
-      )}
-    </section>
+    <>
+      <Progress steps={2} />
+      <section>
+        <Component {...data} />
+      </section>
+    </>
   );
 }

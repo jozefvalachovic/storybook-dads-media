@@ -36,9 +36,13 @@ export const updateMediaPlayerURL = async (
 export const MediaPlayer = () => {
   const { selectedDocument, loading, url } = mediaPlayerState.use((state) => state);
 
-  const handleClose = () => {
+  function handleClose() {
     mediaPlayerState.set({ selectedDocument: null, loading: false, url: null });
-  };
+  }
+
+  function handleContextMenu(e: React.MouseEvent<HTMLAudioElement | HTMLVideoElement>) {
+    e.preventDefault();
+  }
 
   return (
     <aside
@@ -58,9 +62,25 @@ export const MediaPlayer = () => {
             <Spinner />
           ) : selectedDocument && url ? (
             audioMediaTypes.includes(selectedDocument.fileType) ? (
-              <audio controls src={url} preload="auto" autoPlay className="w-full rounded-none" />
+              <audio
+                controls
+                src={url}
+                preload="auto"
+                autoPlay
+                controlsList="nodownload"
+                className="w-full rounded-none"
+                onContextMenu={handleContextMenu}
+              />
             ) : (
-              <video controls preload="auto" autoPlay>
+              <video
+                controls
+                preload="auto"
+                autoPlay
+                controlsList="nodownload"
+                onContextMenu={handleContextMenu}
+                disablePictureInPicture
+                disableRemotePlayback
+              >
                 <source src={url} type="video/mp4" />
               </video>
             )

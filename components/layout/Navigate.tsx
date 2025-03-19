@@ -1,3 +1,5 @@
+"use client";
+
 import { useRouter } from "next/navigation";
 // Components
 import { Icon } from "../icons/Icon";

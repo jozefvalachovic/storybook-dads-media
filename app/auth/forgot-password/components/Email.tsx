@@ -1,61 +1,65 @@
+"use client";
+
+import { redirect } from "next/navigation";
 import { useState } from "react";
+import { useFormHandler } from "@/hooks/formHandler";
 import { emailPattern, emailPatternString } from "@/helpers";
 // Components
 import { Input } from "@/components/form";
 import { Icon } from "@/components/icons/Icon";
-// Types
-type EmailProps = {
-  reset: boolean;
-};
 
-export const Email = ({ reset }: EmailProps) => {
+export const Email = () => {
   const [email, setEmail] = useState("");
+
+  const { handleSubmit } = useFormHandler(
+    async () => {
+      const url = `/api/user/password/forgot/${encodeURIComponent(email)}`;
+      // Send email with verification code
+      const response = await fetch(url);
+
+      if (response.ok) {
+        redirect(`/auth/forgot-password?step=2&email=${email}`);
+      }
+    },
+    { refresh: false }
+  );
 
   const disabled = !emailPattern.test(email);
 
-  return reset ? (
-    <div className="relative select-none flex bg-light-grey px-4 py-[10px] rounded-xl">
-      <p className="absolute -top-[9px] left-[17px] text-[13px] !text-tertiary">
-        Sent successfully
-      </p>
-      <Icon icon="email" iconColor={"var(--color-tertiary)"} />
-      <p className="!text-dark-grey pl-3">{email}</p>
-      <input type="hidden" name="email" value={email} />
-    </div>
-  ) : (
-    <>
-      <p>
-        Please enter your email address and we will send you a verification code to reset your
-        password.
-      </p>
-      <Input
-        name="email"
-        label="Email"
-        value={email}
-        setValue={setEmail}
-        required={!reset}
-        pattern={emailPatternString}
-        icon={{
-          position: "left",
-          Icon: (
-            <Icon
-              icon="email"
-              iconColor={
-                email.length
-                  ? email.match(emailPattern)
-                    ? "var(--color-tertiary)"
-                    : "var(--color-error)"
-                  : "var(--color-icon)"
-              }
-            />
-          ),
-          widthXl: true,
-        }}
-        disabled={reset}
-      />
-      <button className="btn-tertiary" disabled={disabled}>
-        Request Reset
-      </button>
-    </>
+  return (
+    <form onSubmit={handleSubmit}>
+      <div>
+        <p>
+          Please enter your email address and we will send you a verification code to reset your
+          password.
+        </p>
+        <Input
+          name="email"
+          label="Email"
+          value={email}
+          setValue={setEmail}
+          pattern={emailPatternString}
+          icon={{
+            position: "left",
+            Icon: (
+              <Icon
+                icon="email"
+                iconColor={
+                  email.length
+                    ? email.match(emailPattern)
+                      ? "var(--color-tertiary)"
+                      : "var(--color-error)"
+                    : "var(--color-icon)"
+                }
+              />
+            ),
+            widthXl: true,
+          }}
+        />
+        <button className="btn-tertiary" disabled={disabled}>
+          Request Reset
+        </button>
+      </div>
+    </form>
   );
 };

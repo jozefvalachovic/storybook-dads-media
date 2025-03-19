@@ -1,5 +1,3 @@
-import { ClientProvider } from "@/components/ClientProvider";
-// Styles
 import "./globals.css";
 // Types
 import type { ReactNode } from "react";
@@ -31,9 +29,7 @@ export const viewport: Viewport = {
 export default async function RootLayout({ children }: Props) {
   return (
     <html lang="en">
-      <body className={lato.className}>
-        <ClientProvider>{children}</ClientProvider>
-      </body>
+      <body className={lato.className}>{children}</body>
     </html>
   );
 }

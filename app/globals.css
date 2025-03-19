@@ -90,7 +90,6 @@ footer {
 }
 
 header {
-  position: relative;
   background-color: var(--color-light-grey);
   &[data-selected-settings="true"] {
     background-color: var(--color-mid-grey);
