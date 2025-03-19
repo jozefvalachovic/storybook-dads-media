@@ -2,14 +2,16 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { prisonerRelationshipList } from "./assets";
 import { emailPattern, emailPatternString, passwordPattern } from "@/helpers";
 // Componets
-import { Input, PasswordInput } from "@/components/form";
+import { Input, PasswordInput, Select } from "@/components/form";
 import { Icon } from "@/components/icons/Icon";
 
 export const Credentials = () => {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
+  const [prisonerRelationship, setPrisonerRelationship] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -27,6 +29,14 @@ export const Credentials = () => {
       <h2>Your Information</h2>
       <Input name="name" label="Name" value={name} setValue={setName} required />
       <Input name="surname" label="Surname" value={surname} setValue={setSurname} required />
+      <Select
+        name="prisoner-relationship"
+        label="Prisoner Relationship"
+        selected={[prisonerRelationship]}
+        setSelected={(value: string[]) => setPrisonerRelationship(value[0])}
+        list={prisonerRelationshipList.map((item) => ({ value: item }))}
+        required
+      />
       <Input
         name="email"
         label="Email"

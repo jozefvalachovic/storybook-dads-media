@@ -22,6 +22,7 @@ export async function handleSignUp(formData: FormData) {
     // Credentials
     object.name = String(formObject.name);
     object.surname = String(formObject.surname);
+    object.prisonerRelationship = String(formObject["prisoner-relationship"]);
     object.email = String(formObject.email);
     object.password = String(formObject.password);
 

@@ -17,6 +17,7 @@ export type User = {
   userActive: boolean;
   userName: string;
   userSurname: string;
+  userPrisonerRelationship: string;
   userEmail: string;
   password: string;
   // Foreign keys
@@ -45,11 +46,11 @@ export type Prisoner = {
 
 export type SignUpObject = {
   // Credentials
-  email: string;
-  password: string;
-  // Parent Information
   name: string;
   surname: string;
+  prisonerRelationship: string;
+  email: string;
+  password: string;
   // Child Profile
   profileAvatar: string;
   profileName: string;

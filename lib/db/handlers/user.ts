@@ -103,6 +103,7 @@ export async function userCreate(user: User) {
         "surname",
         "email",
         "password",
+        "prisoner_relationship",
         "active",
         "updated_at"
       ) values (
@@ -112,6 +113,7 @@ export async function userCreate(user: User) {
         ${user.userSurname},
         ${user.userEmail},
         ${user.password},
+        ${user.userPrisonerRelationship},
         false,
         ${updatedAt}
       ) returning

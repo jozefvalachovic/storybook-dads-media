@@ -66,7 +66,7 @@ export const Select = ({
   // Menu position
   const menuContainerRef = useRef<HTMLDivElement | null>(null);
   const parentHeight = menuContainerRef.current?.parentElement?.offsetHeight ?? 0;
-  const top = offsetTop + parentHeight;
+  const top = offsetTop + parentHeight + 2;
   const right = offsetRight;
 
   // Toggle menu
@@ -113,7 +113,7 @@ export const Select = ({
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="h-4 w-4 absolute right-2 top-3 text-[#15803d] transition-transform duration-200"
+        className="h-4 w-4 absolute top-[14px] right-3 text-[#15803d] transition-transform duration-200"
         style={{
           transform: show ? "rotate(180deg)" : "rotate(0deg)",
         }}
