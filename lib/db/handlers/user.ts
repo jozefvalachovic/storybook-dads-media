@@ -23,6 +23,25 @@ export async function userGet(email: string, id?: string) {
   return user[0];
 }
 
+export async function userUpdateName(email: string, name: string, surname: string) {
+  try {
+    await sql<User[]>`
+      update "User"
+      set
+        "name" = ${name},
+        "surname" = ${surname}
+      where
+        "User"."email" = ${email}
+    `;
+
+    return true;
+  } catch (error) {
+    console.error(error);
+
+    return false;
+  }
+}
+
 export async function userUpdateActiveProfileId(email: string, activeProfileId: string) {
   try {
     await sql<User[]>`

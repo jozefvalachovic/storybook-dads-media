@@ -9,7 +9,7 @@ type Props = {
 
 export default function Layout({ children }: Props) {
   return (
-    <main className="h-full flex-col !justify-start">
+    <main className="h-full flex-col !justify-start items-center">
       <header>
         <div>
           <Link href="/" className="!w-fit cursor-pointer flex gap-4">

@@ -23,13 +23,13 @@ async function getData() {
 export default async function Page({ searchParams }: { searchParams: SearchParams }) {
   const { step } = await searchParams;
   if (!step || Array.isArray(step)) {
-    redirect("/auth/sign-up?step=1");
+    redirect("/");
   }
 
   const currentStep = parseInt(step);
   const Component = stepGroups[currentStep as keyof typeof stepGroups];
   if (!Component) {
-    redirect("/auth/sign-up?step=1");
+    redirect("/");
   }
 
   const { prisonsList } = await getData();

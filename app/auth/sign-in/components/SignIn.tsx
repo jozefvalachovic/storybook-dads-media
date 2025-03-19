@@ -25,11 +25,9 @@ export function SignIn() {
         document.querySelector("input[name=password]")?.setAttribute("data-invalid", "true");
 
         setSubmit(false);
-      } else {
-        redirect("/auth/sign-in?step=2");
       }
     },
-    { refresh: false, resetSubmit: false }
+    { refresh: true }
   );
 
   return (

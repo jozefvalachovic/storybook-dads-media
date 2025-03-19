@@ -9,6 +9,7 @@ async function getData(id: string) {
   const session = await auth();
 
   const profile = {
+    id,
     name: "",
     dateOfBirth: "",
     avatar: "",
@@ -23,7 +24,6 @@ async function getData(id: string) {
     // Check if the profile is active
     profile.active = session?.user.activeProfile.profileId === id;
   }
-
   return {
     profile,
   };

@@ -18,36 +18,41 @@ export function useFormHandler(
   }
 ) {
   const router = useRouter();
-  let setSubmit: (submit: boolean) => void = () => {};
-  // Handler
+  let formElement: HTMLFormElement | null = null;
+
+  const setSubmit = (submit: boolean) => {
+    if (formElement) {
+      formElement.setAttribute("data-submit", String(submit));
+    }
+  };
+
+  let error: Error | null = null;
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    // Store reference to form element
+    formElement = event.currentTarget;
 
-    // Update form submission state
-    updateFormDataSubmit(event, true);
-    // Provide setSubmit function to handler to reset form submission state (if needed)
-    setSubmit = updateFormDataSubmit.bind(null, event);
+    // Set form to submitting state
+    setSubmit(true);
 
-    // Handle form submission
-    const params = { event, setSubmit };
-    await handler(params);
+    try {
+      await handler({ event, setSubmit });
 
-    // Reset form submission state
-    if (options.refresh) {
-      router.refresh();
-    }
-    if (options.resetSubmit) {
-      setSubmit(false);
+      // Refresh router if needed
+      if (options.refresh) {
+        router.refresh();
+      }
+    } catch (error) {
+      console.error(error);
+
+      error = error;
+    } finally {
+      // Reset submit state if needed even if there's an error
+      if (options.resetSubmit) {
+        setSubmit(false);
+      }
     }
   }
 
-  return { handleSubmit, setSubmit };
-}
-
-function updateFormDataSubmit(event: FormEvent<HTMLFormElement>, dataSubmit: boolean) {
-  const form = event.currentTarget;
-
-  if (form) {
-    form.setAttribute("data-submit", `${dataSubmit}`);
-  }
+  return { handleSubmit, setSubmit, error };
 }

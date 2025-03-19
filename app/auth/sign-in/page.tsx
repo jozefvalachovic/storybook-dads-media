@@ -34,16 +34,19 @@ const stepGroups = {
 export default async function Page({ searchParams }: { searchParams: SearchParams }) {
   const { step } = await searchParams;
   if (!step || Array.isArray(step)) {
-    redirect("/auth/sign-in?step=1");
+    redirect("/");
   }
 
   const currentStep = parseInt(step);
   const Component = stepGroups[currentStep as keyof typeof stepGroups];
   if (!Component) {
-    redirect("/auth/sign-in?step=1");
+    redirect("/");
   }
 
   const data = await getData();
+  if (step === "1" && data.profiles.length > 0) {
+    redirect("/auth/sign-in?step=2");
+  }
 
   return (
     <>

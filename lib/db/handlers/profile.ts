@@ -53,3 +53,27 @@ export async function profileCreate(profile: Profile, userId: string) {
     return null;
   }
 }
+
+export async function profileUpdate(profile: Profile) {
+  console.log(profile);
+  const updatedAt = new Date();
+
+  try {
+    await sql<Profile[]>`
+      update "Profile"
+      set
+        "name" = ${profile.profileName},
+        "avatar_slug" = ${profile.profileAvatarSlug},
+        "date_of_birth" = ${new Date(profile.profileDateOfBirth)},
+        "updated_at" = ${updatedAt}
+      where
+        "id" = ${profile.profileId}
+    `;
+
+    return true;
+  } catch (error) {
+    console.error(error);
+
+    return false;
+  }
+}
