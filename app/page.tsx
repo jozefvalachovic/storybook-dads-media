@@ -5,8 +5,8 @@ import { Icon } from "@/components/icons/Icon";
 
 export default function Page() {
   return (
-    <main className="h-full flex-col !justify-start">
-      <header className="!bg-transparent">
+    <main>
+      <header>
         <div className="flex items-center justify-center">
           <Icon icon="logo-dads" />
           <Icon icon="logo-mums" />

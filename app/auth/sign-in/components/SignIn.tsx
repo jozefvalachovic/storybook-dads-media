@@ -65,7 +65,7 @@ export function SignIn() {
           showPassword={showPassword}
           setShowPassword={setShowPassword}
         />
-        <Link href="/auth/forgot-password" className="!text-tertiary text-sm text-right">
+        <Link href="/auth/forgot-password?step=1" className="!text-tertiary text-sm text-right">
           Forgot password?
         </Link>
         <button className="btn-tertiary" disabled={!email || !password}>
@@ -73,7 +73,7 @@ export function SignIn() {
         </button>
         <div className="flex justify-between">
           <p className="text-sm">Don't have an account?</p>
-          <Link href="/auth/sign-up" className="!text-tertiary text-sm text-right">
+          <Link href="/auth/sign-up?step=1" className="!text-tertiary text-sm text-right">
             Sign Up
           </Link>
         </div>

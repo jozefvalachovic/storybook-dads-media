@@ -8,7 +8,7 @@ type Props = {
 
 export default async function SettingsLayout({ children }: Props) {
   return (
-    <section className="!pt-0">
+    <section className="grow !pt-0">
       <PasswordGuard>
         <Tabs />
         {children}

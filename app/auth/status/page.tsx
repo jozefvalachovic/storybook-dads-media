@@ -13,7 +13,7 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
   const user = await userGet("", id);
 
   if (!user) {
-    redirect("/");
+    redirect("/sign-up?step=1");
   }
 
   if (user.userActive) {
