@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { updateSession, userUpdateActiveProfileId, userUpdateName } from "@/lib";
+import { userUpdateActiveProfileId, userUpdateName } from "@/lib";
 // Assets
 import { invalidRequest, serverError, sessionWrapper } from "@/app/api/assets";
 
@@ -11,14 +11,6 @@ const POST = sessionWrapper(async (request, _, session) => {
     const updated = await userUpdateActiveProfileId(session.user.userEmail, activeProfileId);
 
     if (updated) {
-      // Update the session
-      await updateSession({
-        user: {
-          ...session.user,
-          userActiveProfileId: activeProfileId,
-        },
-      });
-
       return NextResponse.json(
         {
           updated: true,
@@ -34,15 +26,6 @@ const POST = sessionWrapper(async (request, _, session) => {
     const updated = await userUpdateName(session.user.userEmail, name, surname);
 
     if (updated) {
-      // Update the session
-      await updateSession({
-        user: {
-          ...session.user,
-          userName: name,
-          userSurname: surname,
-        },
-      });
-
       return NextResponse.json(
         {
           updated: true,

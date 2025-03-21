@@ -80,7 +80,7 @@ export async function userUpdatePassword(email: string, password: string) {
   }
 }
 
-export async function userAuthenticate(email: string, password: string) {
+export async function userAuthenticate(email: string, password: string, activeProfileId?: string) {
   const user = await userGet(email);
   // Compare the password
   const hmac = await getHmac(password);
@@ -88,8 +88,16 @@ export async function userAuthenticate(email: string, password: string) {
     return null;
   }
 
+  if (activeProfileId) {
+    // Update the active profile
+    const updated = await userUpdateActiveProfileId(email, activeProfileId);
+    if (!updated) {
+      console.error("Failed to update the active profile");
+    }
+  }
+
   const userWithActiveProfile = user as User & { activeProfile: Profile };
-  // Default
+  // Default active profile
   userWithActiveProfile.activeProfile = {
     profileId: "",
     profileName: "",
@@ -99,7 +107,9 @@ export async function userAuthenticate(email: string, password: string) {
 
   const profiles = await profilesGet(email);
   if (profiles.length > 0) {
-    const activeProfile = profiles.find((p) => p.profileId === user.userActiveProfileId);
+    const activeProfile = profiles.find(
+      (p) => p.profileId === (activeProfileId ?? user.userActiveProfileId)
+    );
     if (activeProfile) {
       userWithActiveProfile.activeProfile = activeProfile;
     }

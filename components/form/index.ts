@@ -1,3 +1,4 @@
+export * from "./AvatarCard";
 export * from "./AvatarSelect";
 
 export * from "./CheckBox";

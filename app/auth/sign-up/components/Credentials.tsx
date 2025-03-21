@@ -82,7 +82,7 @@ export const Credentials = () => {
       </button>
       <div className="flex justify-between">
         <p className="text-sm">Already signed up?</p>
-        <Link href="/auth/sign-in?step=1" className="!text-tertiary text-sm text-right">
+        <Link href="/auth/sign-in" className="!text-tertiary text-sm text-right">
           Sign In
         </Link>
       </div>

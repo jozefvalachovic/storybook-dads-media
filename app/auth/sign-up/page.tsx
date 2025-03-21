@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { handleSignUp } from "./actions";
+import { handleSignUp } from "../actions";
 import { prisonsGet } from "@/lib/db/handlers";
 // Components
 import { Progress } from "@/components/layout/Progress";

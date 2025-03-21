@@ -1,58 +1,72 @@
-import { redirect } from "next/navigation";
-import { auth, profilesGet } from "@/lib";
+"use client";
+
+import { useRef, useState } from "react";
+import { handleSignIn } from "../actions";
 // Components
-import { Profile, SignIn } from "./components";
 import { Progress } from "@/components/layout/Progress";
+import { Credentials, ProfileCard } from "./components";
 // Types
-import type { SearchParams } from "@/types";
-export type SignInData = Awaited<ReturnType<typeof getData>>;
-
-async function getData() {
-  const session = await auth();
-
-  const profilesData = await profilesGet(session?.user.userEmail ?? "");
-  const profiles =
-    profilesData.map((p) => ({
-      id: p.profileId,
-      avatar: p.profileAvatarSlug,
-      name: p.profileName,
-    })) ?? [];
-
-  return {
-    profiles,
-    activeProfileId: "",
-    redirectOnUpdate: "/home",
-    className: "grid grid-cols-2 gap-5",
-  };
-}
-
-const stepGroups = {
-  1: SignIn,
-  2: Profile,
+import type { Profile } from "@/lib";
+export type ProfilesProps = {
+  profiles: Profile[];
+  activeProfileId: string;
 };
 
-export default async function Page({ searchParams }: { searchParams: SearchParams }) {
-  const { step } = await searchParams;
-  if (!step || Array.isArray(step)) {
-    redirect("/");
-  }
+export default function Page() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  // Profiles state
+  const [profiles, setProfiles] = useState<ProfilesProps>({ profiles: [], activeProfileId: "" });
 
-  const currentStep = parseInt(step);
-  const Component = stepGroups[currentStep as keyof typeof stepGroups];
-  if (!Component) {
-    redirect("/");
-  }
+  const formRef = useRef<HTMLFormElement>(null);
 
-  const data = await getData();
-  if (step === "1" && data.profiles.length > 0) {
-    redirect("/auth/sign-in?step=2");
+  function handleSelectProfile(profileId: string) {
+    const form = formRef.current;
+
+    if (form) {
+      form.setAttribute("data-submit", "true");
+
+      const formData = new FormData(form);
+      formData.append("email", email);
+      formData.append("password", password);
+
+      formData.append("active-profile-id", profileId);
+
+      handleSignIn(formData);
+    }
   }
 
   return (
     <>
-      <Progress steps={2} />
+      <Progress steps={2} current={profiles.profiles.length > 0 ? 2 : 1} />
       <section>
-        <Component {...data} />
+        <form ref={formRef}>
+          <Credentials
+            email={email}
+            setEmail={setEmail}
+            password={password}
+            setPassword={setPassword}
+            profiles={profiles}
+            setProfiles={setProfiles}
+          />
+          {profiles.profiles.length > 0 && (
+            <div className="!w-fit">
+              <h2 className="mb-6">Who's Listening?</h2>
+              <div className="grid grid-cols-2 gap-5">
+                {profiles.profiles.map(({ profileId, profileAvatarSlug, profileName }) => (
+                  <ProfileCard
+                    key={profileId}
+                    id={profileId}
+                    name={profileName}
+                    avatar={profileAvatarSlug}
+                    selected={profileId === profiles.activeProfileId}
+                    onClick={() => handleSelectProfile(profileId)}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+        </form>
       </section>
     </>
   );

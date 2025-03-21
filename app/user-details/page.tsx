@@ -1,6 +1,6 @@
 import { auth, profilesGet } from "@/lib";
 // Components
-import { ProfilesSelect } from "@/components/ProfilesSelect";
+import { ProfilesQuickMenu } from "./components/ProfilesQuickMenu";
 import { Menu } from "./components";
 // Types
 export type UserDetailsData = Awaited<ReturnType<typeof getData>>;
@@ -12,11 +12,12 @@ async function getData() {
   const profiles =
     profilesData.map((p) => ({
       id: p.profileId,
-      avatar: p.profileAvatarSlug,
       name: p.profileName,
+      avatar: p.profileAvatarSlug,
+      dateOfBirth: p.profileDateOfBirth.toISOString(),
     })) ?? [];
 
-  const activeProfileId = session?.user.userActiveProfileId ?? "";
+  const activeProfileId = session?.user.activeProfile.profileId ?? "";
 
   return {
     profiles,
@@ -29,7 +30,7 @@ export default async function Page() {
 
   return (
     <section>
-      <ProfilesSelect profiles={profiles} activeProfileId={activeProfileId} />
+      <ProfilesQuickMenu profiles={profiles} activeProfileId={activeProfileId} />
       <Menu />
     </section>
   );

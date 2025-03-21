@@ -19,7 +19,7 @@ export default function Page() {
             Connecting families through the magic of storytelling
           </h1>
         </div>
-        <Link href="/auth/sign-in?step=1" className="btn-tertiary w-full">
+        <Link href="/auth/sign-in" className="btn-tertiary w-full">
           Sign In
         </Link>
         <Link href="/auth/sign-up?step=1" className="btn-blank w-full">

@@ -1,6 +1,6 @@
 import { auth, documentsGet } from "@/lib";
 // Components
-import { SessionProvider } from "@/components/SessionProvider";
+import { ClientSessionProvider } from "@/components/ClientSessionProvider";
 import { MediaList } from "@/components/MediaList";
 import { MediaPlayer } from "@/components/MediaPlayer";
 // Types
@@ -35,7 +35,7 @@ export default async function Page() {
   const { userName, documents } = await getData();
 
   return (
-    <SessionProvider>
+    <ClientSessionProvider>
       <section>
         <h1 className="w-full max-w-[var(--app-width-max)] !font-normal mb-4">
           Welcome back, {userName}
@@ -44,6 +44,6 @@ export default async function Page() {
         <MediaList documents={documents} type={"video"} />
         <MediaPlayer />
       </section>
-    </SessionProvider>
+    </ClientSessionProvider>
   );
 }

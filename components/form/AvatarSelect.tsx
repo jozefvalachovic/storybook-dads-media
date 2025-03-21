@@ -1,4 +1,4 @@
-import { AvatarCard } from "@/components/AvatarCard";
+import { AvatarCard } from ".";
 
 type AvatarSelectProps = {
   selected: string;

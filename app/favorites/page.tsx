@@ -1,9 +1,9 @@
-import { SessionProvider } from "@/components/SessionProvider";
+import { ClientSessionProvider } from "@/components/ClientSessionProvider";
 
 export default function Page() {
   return (
-    <SessionProvider>
+    <ClientSessionProvider>
       <section></section>
-    </SessionProvider>
+    </ClientSessionProvider>
   );
 }

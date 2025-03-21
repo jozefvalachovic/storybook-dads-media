@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 import { useFormHandler } from "@/hooks/formHandler";
 // Components
 import { Input } from "@/components/form";
@@ -15,6 +16,7 @@ export const Form = ({ user }: FormProps) => {
   const [name, setName] = useState(user.userName);
   const [surname, setSurname] = useState(user.userSurname);
 
+  const { update } = useSession();
   const { handleSubmit, error } = useFormHandler(async () => {
     const response = await fetch("/api/user/update", {
       method: "POST",
@@ -23,6 +25,14 @@ export const Form = ({ user }: FormProps) => {
 
     if (!response.ok || error) {
       console.error("Failed to update user details");
+
+      setName(user.userName);
+      setSurname(user.userSurname);
+    } else {
+      update({
+        userName: name,
+        userSurname: surname,
+      });
     }
   });
 

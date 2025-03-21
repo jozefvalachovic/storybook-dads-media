@@ -2,18 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { passwordGuardState } from "@/app/user-details/components/PasswordGuard";
 // Components
 import { Navigate } from "./Navigate";
 import { BreadCrumb } from "./BreadCrumb";
 import { Icon } from "../icons/Icon";
-// Types
-import { Session } from "next-auth";
-type HeaderProps = {
-  session: Session;
-};
 
-export const Header = ({ session }: HeaderProps) => {
+export const Header = () => {
   const pathname = usePathname();
 
   const { verified } = passwordGuardState.use((s) => s);
@@ -24,6 +20,11 @@ export const Header = ({ session }: HeaderProps) => {
       // Disable Admin (reset password guard state)
       passwordGuardState.set({ attempts: 0, verified: false });
     }
+  }
+
+  const { data: sessionData } = useSession();
+  if (!sessionData) {
+    return <header></header>;
   }
 
   return (
@@ -48,11 +49,11 @@ export const Header = ({ session }: HeaderProps) => {
           onClick={handleDisableAdmin}
         >
           <Icon
-            icon={`avatar${session.user.activeProfile.profileAvatarSlug}`}
+            icon={`avatar${sessionData.user.activeProfile.profileAvatarSlug}`}
             iconWidth={24}
             iconHeight={24}
           />
-          <p className="font-medium text-sm ml-2">{session?.user.userName}</p>
+          <p className="font-medium text-sm ml-2">{sessionData.user.userName}</p>
         </Link>
       </div>
     </header>

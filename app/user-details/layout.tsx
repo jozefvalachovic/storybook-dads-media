@@ -1,4 +1,4 @@
-import { SessionProvider } from "@/components/SessionProvider";
+import { ClientSessionProvider } from "@/components/ClientSessionProvider";
 // Types
 import type { ReactNode } from "react";
 type Props = {
@@ -6,5 +6,5 @@ type Props = {
 };
 
 export default function Layout({ children }: Props) {
-  return <SessionProvider>{children}</SessionProvider>;
+  return <ClientSessionProvider>{children}</ClientSessionProvider>;
 }

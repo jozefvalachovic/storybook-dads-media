@@ -1,3 +1,3 @@
-export * from "./Profile";
+export * from "./Credentials";
 
-export * from "./SignIn";
+export * from "./ProfileCard";

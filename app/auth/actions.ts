@@ -5,10 +5,23 @@ import { cookies } from "next/headers";
 import { encodeString, decodeString, userGet, signIn, userSignUp } from "@/lib";
 // Types
 import { SignUpObject } from "@/lib";
-// Variables
-const rootStepUrl = "/auth/sign-up?step=1";
 
-// Handle Sign Up submission
+export async function handleSignIn(formData: FormData) {
+  const formObject = Object.fromEntries(formData);
+
+  const email = String(formObject.email);
+  const password = String(formObject.password);
+
+  const activeProfileId = String(formObject["active-profile-id"]);
+
+  return await signIn("credentials", {
+    email,
+    password,
+    activeProfileId,
+    redirectTo: "/home",
+  });
+}
+
 export async function handleSignUp(formData: FormData) {
   const formObject = Object.fromEntries(formData);
 
@@ -16,6 +29,7 @@ export async function handleSignUp(formData: FormData) {
   const step = parseInt(currentStep as string);
 
   const cookieStore = await cookies();
+  const expires = new Date(Date.now() + 1_000 * 60 * 30); // 30 minutes
 
   if (step === 1) {
     const object = {} as SignUpObject;
@@ -37,7 +51,8 @@ export async function handleSignUp(formData: FormData) {
       });
     } else {
       const objectEncoded = await encodeString(JSON.stringify(object));
-      cookieStore.set("object", objectEncoded);
+      // Set expiry date for the object cookie
+      cookieStore.set("object", objectEncoded, { expires });
     }
   }
 
@@ -49,7 +64,7 @@ export async function handleSignUp(formData: FormData) {
     object.profileDate = String(formObject["profile-date"]);
 
     const objectEncoded = await encodeString(JSON.stringify(object));
-    cookieStore.set("object", objectEncoded);
+    cookieStore.set("object", objectEncoded, { expires });
   }
 
   if (step === 3) {
@@ -65,7 +80,7 @@ export async function handleSignUp(formData: FormData) {
 
     const user = await userSignUp(object);
 
-    redirect(user ? `/auth/status?id=${user.userId}` : rootStepUrl);
+    redirect(user ? `/auth/status?id=${user.userId}` : "/auth/sign-up?step=1");
   }
 
   redirect(`/auth/sign-up?step=${step + 1}`);

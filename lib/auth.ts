@@ -5,6 +5,7 @@ import { getHash, userAuthenticate } from ".";
 // Types
 type User = Awaited<ReturnType<typeof userAuthenticate>> & {
   id: string;
+  activeProfileId: string;
 };
 // Extend the NextAuth session
 declare module "next-auth" {
@@ -17,36 +18,35 @@ declare module "next-auth" {
   }
 }
 
-export const {
-  handlers,
-  auth,
-  signIn,
-  signOut,
-  unstable_update: updateSession,
-} = NextAuth({
+export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
     Credentials({
       credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
+        email: { type: "email" },
+        password: { type: "password" },
+        activeProfileId: { type: "text" },
       },
       authorize: async (credentials) => {
         if (!credentials) {
           return null;
         }
 
-        const { email, password } = credentials;
+        const { email, password, activeProfileId } = credentials;
         const passwordHash = await getHash(password as string);
 
-        const user = await userAuthenticate(email as string, passwordHash);
+        const user = await userAuthenticate(
+          email as string,
+          passwordHash,
+          activeProfileId as string
+        );
 
         if (user) {
-          // Don't return the password to the session
-          const { password, ...resUser } = user;
+          const { password, ...restUser } = user;
 
           return {
+            ...restUser,
             id: user.userId,
-            ...resUser,
+            activeProfileId: user.userActiveProfileId,
           };
         } else {
           return null;
@@ -62,10 +62,22 @@ export const {
     signIn: "/auth/sign-in",
   },
   callbacks: {
-    jwt: async ({ token, user }) => {
+    jwt: async ({ session, token, trigger, user }) => {
       // Updates whenever JWT is created/updated
       if (user) {
         token.user = user;
+      }
+
+      if (trigger === "update") {
+        if (session.userName) {
+          (token.user as User).userName = session.userName;
+          (token.user as User).userSurname = session.userSurname;
+        }
+
+        if (session.activeProfileId) {
+          (token.user as User).activeProfileId = session.activeProfileId;
+          (token.user as User).activeProfile = session.activeProfile;
+        }
       }
 
       return token;
