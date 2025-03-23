@@ -1,11 +1,11 @@
 import {
+  getHmac,
   prisonerCreate,
   prisonerGetByNumberAndPrison,
   prisonGetByName,
   profileCreate,
   type SignUpObject,
   userCreate,
-  userUpdateActiveProfileId,
 } from "@/lib";
 
 export * from "./document";
@@ -27,14 +27,13 @@ export async function userSignUp(signUpObject: SignUpObject) {
     name,
     surname,
     prisonerRelationship,
-    profileAvatar,
-    profileName,
-    profileDate,
+    profiles,
     prisonerName,
     prisonerSurname,
     prisonerNumber,
     prisonerPrison,
   } = signUpObject;
+  const passwordHmac = await getHmac(password);
   // User
   const user = await userCreate({
     userId: "",
@@ -43,7 +42,7 @@ export async function userSignUp(signUpObject: SignUpObject) {
     userSurname: surname,
     userPrisonerRelationship: prisonerRelationship,
     userEmail: email,
-    password: password,
+    password: passwordHmac,
     userActiveProfileId: "",
   });
   if (!user) {
@@ -52,24 +51,29 @@ export async function userSignUp(signUpObject: SignUpObject) {
     return null;
   }
 
-  // Profile
-  const profile = await profileCreate(
-    {
-      profileId: "",
-      profileName,
-      profileAvatarSlug: profileAvatar,
-      profileDateOfBirth: new Date(profileDate),
-    },
-    user.userId
-  );
-  if (!profile) {
-    console.error("Profile not created");
+  // Profiles
+  const newProfiles = await Promise.all(
+    profiles.map(async (profile) => {
+      const newProfile = await profileCreate(
+        {
+          profileId: "",
+          profileName: profile.profileName,
+          profileAvatarSlug: profile.profileAvatar,
+          profileDateOfBirth: new Date(profile.profileDate),
+        },
+        user.userId
+      );
+      if (!newProfile) {
+        console.error("Profile not created", profile);
 
-    return null;
-  }
-  const updatedUser = await userUpdateActiveProfileId(email, profile.profileId);
-  if (!updatedUser) {
-    console.error("User not updated");
+        return null;
+      } else {
+        return newProfile;
+      }
+    })
+  ).then((profiles) => profiles.filter((profile) => profile !== null));
+  if (newProfiles.length === 0) {
+    console.error("Profiles not created");
 
     return null;
   }

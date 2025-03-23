@@ -2,9 +2,9 @@
 
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
-import { encodeString, decodeString, userGet, signIn, userSignUp } from "@/lib";
+import { encodeString, decodeString, userGet, signIn, userSignUp, getHash } from "@/lib";
 // Types
-import { SignUpObject } from "@/lib";
+import type { SignUpObject } from "@/lib";
 
 export async function handleSignIn(formData: FormData) {
   const formObject = Object.fromEntries(formData);
@@ -50,6 +50,8 @@ export async function handleSignUp(formData: FormData) {
         redirectTo: "/home",
       });
     } else {
+      // Hash only for the cookie
+      object.password = await getHash(object.password);
       const objectEncoded = await encodeString(JSON.stringify(object));
       // Set expiry date for the object cookie
       cookieStore.set("object", objectEncoded, { expires });
@@ -58,10 +60,8 @@ export async function handleSignUp(formData: FormData) {
 
   if (step === 2) {
     const object = await decodeObjectString(cookieStore.get("object")?.value ?? "{}");
-    // Child Profile
-    object.profileAvatar = String(formObject["profile-avatar"]);
-    object.profileName = String(formObject["profile-name"]);
-    object.profileDate = String(formObject["profile-date"]);
+    // Child Profiles
+    object.profiles = JSON.parse(String(formObject["profiles"]));
 
     const objectEncoded = await encodeString(JSON.stringify(object));
     cookieStore.set("object", objectEncoded, { expires });

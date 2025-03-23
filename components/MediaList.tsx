@@ -12,7 +12,7 @@ export const MediaList = ({ documents, type }: MediaListProps) => {
     type === "audio" ? audioMediaTypes.includes(d.fileType) : videoMediaTypes.includes(d.fileType)
   );
 
-  return (
+  return documents.length > 0 ? (
     <div className="w-full flex flex-wrap gap-4">
       <h2>New {type} for you</h2>
       <div className="w-full hide-scrollbar flex gap-4 overflow-x-auto pb-4 flex-nowrap">
@@ -21,5 +21,5 @@ export const MediaList = ({ documents, type }: MediaListProps) => {
         ))}
       </div>
     </div>
-  );
+  ) : null;
 };

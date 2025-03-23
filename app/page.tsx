@@ -6,7 +6,7 @@ import { Icon } from "@/components/icons/Icon";
 export default function Page() {
   return (
     <main>
-      <header>
+      <header className="!bg-transparent">
         <div className="flex items-center justify-center">
           <Icon icon="logo-dads" />
           <Icon icon="logo-mums" />

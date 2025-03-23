@@ -26,12 +26,18 @@ export const Credentials = () => {
 
   return (
     <div>
-      <h2>Your Information</h2>
-      <Input name="name" label="Name" value={name} setValue={setName} required />
-      <Input name="surname" label="Surname" value={surname} setValue={setSurname} required />
+      <div>
+        <h2>Your Information</h2>
+        <p className="text-[13px]">
+          To register you must be an adult and the parent/guardian/carer of the child or children
+          receiving the story
+        </p>
+      </div>
+      <Input name="name" label="First Name" value={name} setValue={setName} required />
+      <Input name="surname" label="Last Name" value={surname} setValue={setSurname} required />
       <Select
         name="prisoner-relationship"
-        label="Prisoner Relationship"
+        label="Relationship to Prisoner"
         selected={[prisonerRelationship]}
         setSelected={(value: string[]) => setPrisonerRelationship(value[0])}
         list={prisonerRelationshipList.map((item) => ({ value: item }))}

@@ -1,6 +1,7 @@
 "use client";
 
 import { type MouseEvent, useState } from "react";
+import { handleSignUp } from "../../actions";
 // Componets
 import { Input, Select, type SelectProps } from "@/components/form";
 // Types
@@ -12,15 +13,21 @@ export const Prisoner = ({ prisons }: PrisonerProps) => {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [number, setNumber] = useState("");
+  const updateNumber = (value: string) => {
+    setNumber(value.toUpperCase());
+  };
   const [prison, setPrison] = useState("");
   function updatePrison(value: string[]) {
     setPrison(value[0]);
   }
 
-  function handleClick(e: MouseEvent<HTMLButtonElement>) {
+  function handleSubmit(e: MouseEvent<HTMLButtonElement>) {
     const form = e.currentTarget.closest("form");
     if (form) {
       form.setAttribute("data-submit", "true");
+      const formData = new FormData(form);
+
+      handleSignUp(formData);
     }
   }
 
@@ -40,10 +47,8 @@ export const Prisoner = ({ prisons }: PrisonerProps) => {
         name="prisoner-number"
         label="Prisoner Number"
         value={number}
-        setValue={setNumber}
+        setValue={updateNumber}
         required
-        hint="Starts with A and continue with 6 digits"
-        hintVisible
         pattern="A[0-9]{6}"
       />
       <Select
@@ -54,7 +59,7 @@ export const Prisoner = ({ prisons }: PrisonerProps) => {
         setSelected={updatePrison}
         required
       />
-      <button className="btn-tertiary" disabled={disabled} onClick={handleClick}>
+      <button className="btn-tertiary" disabled={disabled} onClick={handleSubmit}>
         Continue
       </button>
     </div>

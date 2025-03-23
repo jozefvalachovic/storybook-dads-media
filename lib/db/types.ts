@@ -51,10 +51,12 @@ export type SignUpObject = {
   prisonerRelationship: string;
   email: string;
   password: string;
-  // Child Profile
-  profileAvatar: string;
-  profileName: string;
-  profileDate: string;
+  // Child Profiles
+  profiles: {
+    profileAvatar: string;
+    profileName: string;
+    profileDate: string;
+  }[];
   // Prisoner Information
   prisonerName: string;
   prisonerSurname: string;

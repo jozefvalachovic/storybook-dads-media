@@ -8,6 +8,7 @@ import { Input, PasswordInput } from "@/components/form";
 import { Icon } from "@/components/icons/Icon";
 // Types
 import { ProfilesProps } from "../page";
+import { redirect } from "next/navigation";
 type CredentialsProps = {
   email: string;
   setEmail: (email: string) => void;
@@ -37,12 +38,13 @@ export function Credentials({
       },
       body: JSON.stringify({ email, password }),
     });
-    const profiles = await response.json();
 
-    if (profiles) {
+    if (response.ok) {
+      const profiles = await response.json();
+
       setProfiles(profiles);
     } else {
-      console.error("Failed to get profiles");
+      redirect("/auth/sign-in?error=CredentialsSignin");
     }
   }
 
