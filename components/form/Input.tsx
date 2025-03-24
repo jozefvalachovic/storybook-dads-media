@@ -101,7 +101,7 @@ export const Input = ({
     }),
   };
   return (
-    <div className="relative overflow-visible">
+    <div className="overflow-visible">
       <fieldset>
         <InputComponent {...inputProps} />
         {label && (
@@ -114,23 +114,23 @@ export const Input = ({
             {required && " *"}
           </label>
         )}
+        {icon && (
+          <div
+            className="absolute top-1/2 transform -translate-y-1/2"
+            style={{
+              left: icon.position === "left" ? "16px" : "auto",
+              right: icon.position === "right" ? "16px" : "auto",
+            }}
+          >
+            {icon.Icon}
+          </div>
+        )}
       </fieldset>
       {hint && (
         <div data-invalid={hintVisible}>
           <div>
             <p className={hintVisible ? "!text-secondary" : ""}>{hint}</p>
           </div>
-        </div>
-      )}
-      {icon && (
-        <div
-          className="absolute top-1/2 transform -translate-y-1/2"
-          style={{
-            left: icon.position === "left" ? "16px" : "auto",
-            right: icon.position === "right" ? "16px" : "auto",
-          }}
-        >
-          {icon.Icon}
         </div>
       )}
     </div>

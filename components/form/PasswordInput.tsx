@@ -10,6 +10,7 @@ type PasswordInputProps = {
   setPassword: (value: string) => void;
   showPassword: boolean;
   setShowPassword: (value: boolean) => void;
+  showHint?: boolean;
 };
 
 export function PasswordInput(props: PasswordInputProps) {
@@ -41,9 +42,15 @@ export function PasswordInput(props: PasswordInputProps) {
           ),
           widthXl: true,
         }}
+        hint={
+          props.showHint
+            ? "Password must contain at least 16 characters, including one uppercase letter, one lowercase letter and one number."
+            : ""
+        }
+        hintVisible={props.showHint}
       />
       <div
-        className="h-full absolute top-0 right-4 cursor-pointer flex items-center"
+        className="h-[45px] absolute top-0 right-4 cursor-pointer flex items-center"
         onClick={() => setShowPassword(!showPassword)}
       >
         <Icon icon={showPassword ? "eye" : "eye-crossed"} iconColor="var(--color-dark-grey)" />

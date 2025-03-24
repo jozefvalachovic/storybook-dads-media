@@ -49,7 +49,6 @@ export const Prisoner = ({ prisons }: PrisonerProps) => {
         value={number}
         setValue={updateNumber}
         required
-        pattern="A[0-9]{6}"
       />
       <Select
         name="prisoner-prison"

@@ -74,6 +74,7 @@ export const Credentials = () => {
         setPassword={setPassword}
         showPassword={showPassword}
         setShowPassword={setShowPassword}
+        showHint
       />
       <PasswordInput
         name="confirm-password"
