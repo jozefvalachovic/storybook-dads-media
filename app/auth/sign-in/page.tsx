@@ -51,7 +51,7 @@ export default function Page() {
           />
           {profiles.profiles.length > 0 && (
             <div className="!w-fit">
-              <h2 className="mb-6">Who's Listening?</h2>
+              <h2 className="mb-2">Who's Listening?</h2>
               <div className="grid grid-cols-2 gap-5">
                 {profiles.profiles.map(({ profileId, profileAvatarSlug, profileName }) => (
                   <ProfileCard

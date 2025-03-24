@@ -1,6 +1,6 @@
 import { generateUUID, getHmac, profilesGet, sql, type Profile, type User } from "@/lib";
 
-export async function userGet(email: string, id?: string) {
+export async function userGet(email: string) {
   const user = await sql<User[]>`
     select
       "User"."id" as "userId",
@@ -12,8 +12,24 @@ export async function userGet(email: string, id?: string) {
       "User"."active_profile_id" as "userActiveProfileId"
     from "User"
     where
-      ${id ? sql`"User"."id" = ${id}` : sql`"User"."email" = ${email}`}
+      "User"."email" = ${email}
       AND "User"."active" = true
+  `;
+
+  if (user.length === 0) {
+    return null;
+  }
+
+  return user[0];
+}
+
+export async function userGetById(id: string) {
+  const user = await sql<Pick<User, "userActive">[]>`
+    select
+      "User"."active" as "userActive"
+    from "User"
+    where
+      "User"."id" = ${id}
   `;
 
   if (user.length === 0) {

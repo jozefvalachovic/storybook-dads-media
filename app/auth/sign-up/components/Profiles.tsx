@@ -63,7 +63,7 @@ export const Profiles = () => {
         required={!profiles.length}
       />
       <button
-        className="btn-blank !text-tertiary"
+        className="btn-blank"
         type="button"
         disabled={disabled}
         onClick={handleUpdateProfiles}

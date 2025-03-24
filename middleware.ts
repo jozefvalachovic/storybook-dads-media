@@ -15,7 +15,7 @@ export const config = {
 };
 
 export default auth((req) => {
-  const { nextUrl } = req;
+  const { nextUrl, url } = req;
 
   const isAuthenticated = !!req.auth;
 
@@ -25,7 +25,6 @@ export default auth((req) => {
   if (!isAuthenticated && !isLandingPage && !isAuthRoute) {
     const route = new URL("/", nextUrl);
 
-    console.log("Redirecting to /");
     return NextResponse.redirect(route);
   }
 

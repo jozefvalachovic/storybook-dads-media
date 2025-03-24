@@ -1,7 +1,7 @@
 import { auth, documentsGet } from "@/lib";
 // Components
 import { ClientSessionProvider } from "@/components/ClientSessionProvider";
-import { MediaList } from "@/components/MediaList";
+import { Content } from "./components";
 import { MediaPlayer } from "@/components/MediaPlayer";
 // Types
 export type HomeData = Awaited<ReturnType<typeof getData>>;
@@ -22,6 +22,7 @@ async function getData() {
       name: d.documentName,
       title,
       fileType,
+      liked: d.documentLiked,
     };
   });
 
@@ -40,8 +41,8 @@ export default async function Page() {
         <h1 className="w-full max-w-[var(--app-width-max)] !font-normal mb-4">
           Welcome back, {userName}
         </h1>
-        <MediaList documents={documents} type={"audio"} />
-        <MediaList documents={documents} type={"video"} />
+        <Content documents={documents} type="audio" />
+        <Content documents={documents} type="video" />
         <MediaPlayer />
       </section>
     </ClientSessionProvider>

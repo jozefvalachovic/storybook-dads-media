@@ -40,6 +40,30 @@ export const MediaPlayer = () => {
     mediaPlayerState.set({ selectedDocument: null, loading: false, url: null });
   }
 
+  async function handleLike() {
+    if (selectedDocument) {
+      const response = await fetch("/api/document/update", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          documentId: selectedDocument.id,
+          documentLiked: !selectedDocument.liked,
+        }),
+      });
+      if (response.ok) {
+        mediaPlayerState.set({
+          loading,
+          url,
+          selectedDocument: { ...selectedDocument, liked: !selectedDocument.liked },
+        });
+      } else {
+        console.error("Error updating liked status");
+      }
+    }
+  }
+
   function handleContextMenu(e: React.MouseEvent<HTMLAudioElement | HTMLVideoElement>) {
     e.preventDefault();
   }
@@ -50,9 +74,16 @@ export const MediaPlayer = () => {
         gridTemplateRows: selectedDocument ? "1fr" : "0fr",
       }}
     >
-      <div className="w-[100vw] max-w-[var(--app-width-max)] overflow-hidden rounded-tl-2xl rounded-tr-2xl">
-        <div className="flex bg-mid-grey p-4">
-          <h1 className="!font-semibold leading-tight mr-auto">{selectedDocument?.title ?? ""}</h1>
+      <div className="w-[100vw] max-w-[var(--app-width-max)] overflow-hidden">
+        <div className="flex items-center bg-mid-grey p-4">
+          <h1 className="!font-semibold leading-tight mr-4">{selectedDocument?.title ?? ""}</h1>
+          <div className="mr-auto">
+            <Icon
+              icon={selectedDocument?.liked ? "liked" : "like"}
+              click={handleLike}
+              iconColor="var(--color-text)"
+            />
+          </div>
           <div>
             <Icon icon="cancel" click={handleClose} iconColor="var(--color-text)" />
           </div>

@@ -1,7 +1,6 @@
 "use client";
 
-import { type MouseEvent, useState } from "react";
-import { handleSignUp } from "../../actions";
+import { useState } from "react";
 // Componets
 import { Input, Select, type SelectProps } from "@/components/form";
 // Types
@@ -19,16 +18,6 @@ export const Prisoner = ({ prisons }: PrisonerProps) => {
   const [prison, setPrison] = useState("");
   function updatePrison(value: string[]) {
     setPrison(value[0]);
-  }
-
-  function handleSubmit(e: MouseEvent<HTMLButtonElement>) {
-    const form = e.currentTarget.closest("form");
-    if (form) {
-      form.setAttribute("data-submit", "true");
-      const formData = new FormData(form);
-
-      handleSignUp(formData);
-    }
   }
 
   const disabled = !name || !surname || !number || !prison;
@@ -58,7 +47,7 @@ export const Prisoner = ({ prisons }: PrisonerProps) => {
         setSelected={updatePrison}
         required
       />
-      <button className="btn-tertiary" disabled={disabled} onClick={handleSubmit}>
+      <button className="btn-tertiary" disabled={disabled}>
         Continue
       </button>
     </div>

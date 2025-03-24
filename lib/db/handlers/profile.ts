@@ -55,7 +55,6 @@ export async function profileCreate(profile: Profile, userId: string) {
 }
 
 export async function profileUpdate(profile: Profile) {
-  console.log(profile);
   const updatedAt = new Date();
 
   try {

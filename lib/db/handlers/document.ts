@@ -26,3 +26,21 @@ export async function documentsGet(email: string, documentId?: string) {
 
   return documents;
 }
+
+export async function documentUpdateLiked(documentId: string, liked: boolean) {
+  try {
+    await sql<Document[]>`
+      update "Document"
+      set
+        "liked" = ${liked}
+      where
+        "Document"."id" = ${documentId}
+    `;
+
+    return true;
+  } catch (error) {
+    console.error(error);
+
+    return false;
+  }
+}

@@ -61,7 +61,7 @@ export async function handleSignUp(formData: FormData) {
   if (step === 2) {
     const object = await decodeObjectString(cookieStore.get("object")?.value ?? "{}");
     // Child Profiles
-    object.profiles = JSON.parse(String(formObject["profiles"]));
+    object.profiles = JSON.parse(formObject["profiles"] as string);
 
     const objectEncoded = await encodeString(JSON.stringify(object));
     cookieStore.set("object", objectEncoded, { expires });
