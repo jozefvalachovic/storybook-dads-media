@@ -8,19 +8,19 @@ import { AvatarSelect, Input } from "@/components/form";
 // Types
 import type { ProfileData } from "../[slug]/page";
 type FormProps = {
-  profile: ProfileData["profile"];
+  profileData: ProfileData;
 };
 
-export const Form = ({ profile }: FormProps) => {
-  const [name, setName] = useState(profile.name);
-  const [dateOfBirth, setDateOfBirth] = useState(profile.dateOfBirth);
-  const [avatar, setAvatar] = useState(profile.avatar);
+export const Form = ({ profileData }: FormProps) => {
+  const [name, setName] = useState(profileData.name);
+  const [dateOfBirth, setDateOfBirth] = useState(profileData.dateOfBirth);
+  const [avatar, setAvatar] = useState(profileData.avatar);
 
   const { handleSubmit, error } = useFormHandler(async () => {
     const response = await fetch("/api/profile/update", {
       method: "POST",
       body: JSON.stringify({
-        profileId: profile.id,
+        profileId: profileData.id,
         profileName: name,
         profileDateOfBirth: dateOfBirth,
         profileAvatarSlug: avatar,
@@ -33,7 +33,9 @@ export const Form = ({ profile }: FormProps) => {
   });
 
   const disabled =
-    name === profile.name && dateOfBirth === profile.dateOfBirth && avatar === profile.avatar;
+    name === profileData.name &&
+    dateOfBirth === profileData.dateOfBirth &&
+    avatar === profileData.avatar;
 
   return (
     <form
@@ -52,7 +54,9 @@ export const Form = ({ profile }: FormProps) => {
       <Link href="/user-details/settings/profiles" className="btn-blank w-[90px] !text-tertiary">
         Cancel
       </Link>
-      <button className="btn-tertiary w-[90px]">Save</button>
+      <button className="btn-tertiary w-[90px]" disabled={disabled}>
+        Save
+      </button>
     </form>
   );
 };

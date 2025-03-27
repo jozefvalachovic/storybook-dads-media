@@ -1,6 +1,6 @@
 import { auth } from "@/lib";
 // Components
-import { Form, RequestAdminUpdate } from "./components";
+import { Content } from "./components";
 
 export default async function Page() {
   const session = await auth();
@@ -8,10 +8,5 @@ export default async function Page() {
     return null;
   }
 
-  return (
-    <>
-      <Form user={session.user} />
-      <RequestAdminUpdate />
-    </>
-  );
+  return <Content />;
 }

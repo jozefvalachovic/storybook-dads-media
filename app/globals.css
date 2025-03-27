@@ -72,11 +72,16 @@ main {
 
 section {
   width: min(100%, var(--app-width-max));
+  max-height: calc(100dvh - (2 * var(--app-header-height)));
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   padding: 1rem;
+  .section-content {
+    width: 100%;
+    overflow-y: scroll;
+  }
 }
 
 header,

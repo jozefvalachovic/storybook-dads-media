@@ -1,4 +1,4 @@
-import { auth, profilesGet } from "@/lib";
+import { auth, PROFILES_MAX, profilesGet } from "@/lib";
 // Components
 import { ProfilesMenu } from "./components";
 // Types
@@ -7,21 +7,21 @@ export type SettingsProfilesData = Awaited<ReturnType<typeof getData>>;
 async function getData() {
   const session = await auth();
 
-  const profilesData = await profilesGet(session?.user.userEmail ?? "");
-  const profiles =
-    profilesData.map((p) => ({
+  const profiles = await profilesGet(session?.user.userEmail ?? "");
+  const data =
+    profiles.map((p) => ({
       id: p.profileId,
       name: p.profileName,
       avatar: p.profileAvatarSlug,
     })) ?? [];
 
-  return {
-    profiles,
-  };
+  return data;
 }
 
 export default async function Page() {
-  const { profiles } = await getData();
+  const data = await getData();
 
-  return <ProfilesMenu profiles={profiles} />;
+  const profilesMax = PROFILES_MAX;
+
+  return <ProfilesMenu profiles={data} profilesMax={profilesMax} />;
 }

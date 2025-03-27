@@ -5,10 +5,10 @@ import { capitalize } from "@/helpers";
 // Components
 import { Input } from "@/components/form";
 // Types
-import type { SettingsPrisonerData } from "../page";
+import type { PrisonerData } from "../page";
 
-export const Content = (prisoner: SettingsPrisonerData) => {
-  const fields = Object.entries(prisoner);
+export const Content = (prisonerData: PrisonerData) => {
+  const fields = Object.entries(prisonerData);
 
   const [confirmRequestPrisonerUpdate, setConfirmRequestPrisonerUpdate] = useState(false);
   function handleRequestPrisonerUpdate() {

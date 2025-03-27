@@ -1,4 +1,5 @@
-import { auth, profilesGet } from "@/lib";
+import { redirect } from "next/navigation";
+import { auth, PROFILES_MAX, profilesGet } from "@/lib";
 // Components
 import { Delete, Form } from "../components";
 // Types
@@ -8,7 +9,7 @@ export type ProfileData = Awaited<ReturnType<typeof getData>>;
 async function getData(id: string) {
   const session = await auth();
 
-  const profile = {
+  const profileData = {
     id,
     name: "",
     dateOfBirth: "",
@@ -16,28 +17,32 @@ async function getData(id: string) {
     active: false,
   };
 
-  const profiles = await profilesGet(session?.user.userEmail ?? "", id);
-  if (profiles.length > 0) {
-    profile.name = profiles[0].profileName;
-    profile.dateOfBirth = profiles[0].profileDateOfBirth.toISOString().split("T")[0];
-    profile.avatar = profiles[0].profileAvatarSlug;
-    // Check if the profile is active
-    profile.active = session?.user.activeProfile.profileId === id;
+  const profiles = await profilesGet(session?.user.userEmail ?? "");
+
+  if (profiles.length > PROFILES_MAX) {
+    redirect("/user-details/settings/profiles");
   }
-  return {
-    profile,
-  };
+
+  const profile = profiles.find((p) => p.profileId === id);
+  if (profile) {
+    profileData.name = profiles[0].profileName;
+    profileData.dateOfBirth = profiles[0].profileDateOfBirth.toISOString().split("T")[0];
+    profileData.avatar = profiles[0].profileAvatarSlug;
+    // Check if the profile is active
+    profileData.active = session?.user.activeProfile.profileId === id;
+  }
+  return profileData;
 }
 
 export default async function Page({ params }: RouteParams) {
   const { slug } = await params;
 
-  const { profile } = await getData(slug as string);
+  const profileData = await getData(slug as string);
 
   return (
     <>
-      <Form profile={profile} />
-      {profile.active || profile.name === "" ? null : <Delete />}
+      <Form profileData={profileData} />
+      {profileData.active || profileData.name === "" ? null : <Delete />}
     </>
   );
 }

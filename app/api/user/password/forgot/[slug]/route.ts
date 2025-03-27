@@ -7,16 +7,19 @@ import {
   userVerificationTokenGet,
 } from "@/lib";
 // Assets
-import { serverError, unauthorized } from "@/app/api/assets";
+import { invalidRequest, serverError, unauthorized } from "@/app/api/assets";
 // Types;
 import type { RouteParams } from "@/types";
 import { passwordReset } from "@/lib/aws/ses";
 
 const GET = async (request: NextRequest, { params }: RouteParams) => {
   const { slug } = await params;
+  if (!slug || Array.isArray(slug)) {
+    return invalidRequest;
+  }
 
   // Get the user
-  const user = await userGet(slug as string);
+  const user = await userGet(slug);
 
   if (user) {
     // Check if a verification token already exists

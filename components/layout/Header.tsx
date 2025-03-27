@@ -27,6 +27,9 @@ export const Header = () => {
     return <header></header>;
   }
 
+  const profileName = sessionData.user.activeProfile.profileName.split(" ").shift() || "";
+  const avatarIcon = `avatar${sessionData.user.activeProfile.profileAvatarSlug}`;
+
   return (
     <header data-selected-settings={pathname.startsWith("/user-details/settings") && verified}>
       <div className="flex justify-between items-center">
@@ -45,15 +48,13 @@ export const Header = () => {
           href="/user-details"
           data-selected={pathname.startsWith("/user-details")}
           data-selected-settings={pathname.startsWith("/user-details/settings") && verified}
-          className="flex items-center py-2 pl-2 pr-3 rounded-full border border-[#727970]"
+          className="flex items-center py-2 px-2 rounded-full border border-[#727970]"
           onClick={handleDisableAdmin}
         >
-          <Icon
-            icon={`avatar${sessionData.user.activeProfile.profileAvatarSlug}`}
-            iconWidth={24}
-            iconHeight={24}
-          />
-          <p className="font-medium text-sm ml-2">{sessionData.user.userName}</p>
+          <Icon icon={avatarIcon} iconWidth={24} iconHeight={24} />
+          {profileName.length > 0 && (
+            <p className="font-medium text-sm ml-2 mr-0.5">{profileName}</p>
+          )}
         </Link>
       </div>
     </header>

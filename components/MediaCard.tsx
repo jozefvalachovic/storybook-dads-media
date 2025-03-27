@@ -3,9 +3,9 @@
 import Image from "next/image";
 import { updateMediaPlayerURL } from "./MediaPlayer";
 // Types
-import type { HomeData } from "@/app/home/page";
+import type { DocumentsData } from "@/lib";
 export type MediaCardProps = {
-  document: HomeData["documents"][0];
+  document: DocumentsData[0];
   format?: "normal" | "large";
   type: "audio" | "video";
 };

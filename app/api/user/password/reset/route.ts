@@ -8,12 +8,15 @@ import {
   userVerificationTokenGet,
 } from "@/lib";
 // Assets
-import { serverError, unauthorized } from "@/app/api/assets";
+import { invalidRequest, serverError, unauthorized } from "@/app/api/assets";
 
 const POST = async (request: NextRequest) => {
   const { email, password, verificationCode } = await request.json();
+  if (!email || !password || !verificationCode) {
+    return invalidRequest;
+  }
 
-  // Compare User password
+  // Check if the email is valid
   const user = await userGet(email);
   if (user) {
     const userVerificationToken = await userVerificationTokenGet(email);

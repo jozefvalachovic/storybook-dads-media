@@ -6,24 +6,24 @@ import { audioMediaTypes, videoMediaTypes } from "@/helpers";
 import { Icon } from "@/components/icons/Icon";
 import { MediaCard } from "@/components/MediaCard";
 // Types
-import type { FavoritesData } from "../page";
+import { DocumentsData } from "@/lib";
 type ContentProps = {
-  documents: FavoritesData["documents"];
+  documentsData: DocumentsData;
 };
 
-export const Content = ({ documents }: ContentProps) => {
+export const Content = ({ documentsData }: ContentProps) => {
   const types = ["audio", "video"];
   const [type, setType] = useState<"audio" | "video">(types[0] as "audio");
   function updateType(t: (typeof types)[number]) {
     setType(t as "audio" | "video");
   }
 
-  const documentsFiltered = documents.filter((d) =>
+  const documentsDataFiltered = documentsData.filter((d) =>
     type === "audio" ? audioMediaTypes.includes(d.fileType) : videoMediaTypes.includes(d.fileType)
   );
 
   return (
-    <div className="w-full hide-scrollbar max-h-[calc(100dvh-2*var(--app-header-height)-2rem)] overflow-y-scroll">
+    <div className="section-content hide-scrollbar">
       <div className="sticky top-0 w-full bg-bg pb-4">
         <div className="overflow-hidden flex rounded-2xl border border-dark-grey">
           {types.map((t) => {
@@ -45,7 +45,7 @@ export const Content = ({ documents }: ContentProps) => {
         </div>
       </div>
       <div className="flex flex-col items-center gap-4">
-        {documentsFiltered.map((d) => (
+        {documentsDataFiltered.map((d) => (
           <MediaCard key={d.id} document={d} type={type} format="large" />
         ))}
       </div>

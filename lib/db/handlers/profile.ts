@@ -1,6 +1,6 @@
 import { generateUUID, sql, type Profile } from "@/lib";
 
-export async function profilesGet(email: string, profileId?: string) {
+export async function profilesGet(email: string) {
   const profiles = await sql<Profile[]>`
   select
       "Profile"."id" as "profileId",
@@ -12,7 +12,6 @@ export async function profilesGet(email: string, profileId?: string) {
       "Profile" on "Profile"."user_id" = "User"."id"
     where
       "User"."email" = ${email}
-      ${profileId ? sql`AND "Profile"."id" = ${profileId}` : sql``}
   `;
 
   if (profiles.length === 0) {

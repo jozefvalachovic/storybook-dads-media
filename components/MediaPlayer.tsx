@@ -6,9 +6,9 @@ import { audioMediaTypes } from "@/helpers";
 import { Icon } from "./icons/Icon";
 import { Spinner } from "./Spinner";
 // Types
-import type { HomeData } from "@/app/home/page";
+import type { DocumentsData } from "@/lib";
 export type MediaPlayer = {
-  selectedDocument: HomeData["documents"][0] | null;
+  selectedDocument: DocumentsData[0] | null;
   loading: boolean;
   url: string | null;
 };
